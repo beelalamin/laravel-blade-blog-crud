@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +14,7 @@ class AuthController extends Controller
     {
 
         // Validate
-        $credentials =  $request->validate([
+        $credentials = $request->validate([
             'username' => ['required', 'string'],
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'confirmed', 'min:3'],
@@ -24,8 +26,11 @@ class AuthController extends Controller
         // Login
         Auth::login($user);
 
+        // Invoke for email verification
+        event(new Registered($user));
+
         // Redirect
-        return redirect('/');
+        return redirect()->route('dashboard');
     }
 
 
@@ -33,7 +38,7 @@ class AuthController extends Controller
     {
 
         // Validate
-        $credentials =  $request->validate([
+        $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
@@ -43,7 +48,7 @@ class AuthController extends Controller
 
         // Redirect
         if ($login) {
-            return redirect()->intended();
+            return redirect()->intended('dashboard');
         } else {
             return back()->withErrors([
                 'failed' => 'Credentials does not match our record!'
@@ -66,5 +71,27 @@ class AuthController extends Controller
 
         // redirect to home
         return redirect()->route('login');
+    }
+
+    // Email Verification Notice
+    public function verificationNotice()
+    {
+        return view('auth.verify-email');
+    }
+
+    // Verify the email
+    public function verificationHandler(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+
+        return redirect('dashboard');
+    }
+
+    // Resend verification email
+    public function ResendVerificationEmail(Request $request)
+    {
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('message', 'Verification link sent!');
     }
 }

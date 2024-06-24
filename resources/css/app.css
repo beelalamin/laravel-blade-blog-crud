@@ -5,3 +5,7 @@
 .remember-me {
     margin-left: 4px;
 }
+
+body {
+    overflow-x: hidden;
+}

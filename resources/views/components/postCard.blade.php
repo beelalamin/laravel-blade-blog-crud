@@ -3,11 +3,11 @@
 
     @if ($post->image)
         <div>
-            <img src="{{ asset('storage/' . $post->image) }}" alt="" class="w-full h-60">
+            <img src="{{ asset('storage/' . $post->image) }}" alt="" class="w-full mt-2 mb-2 rounded-lg">
         </div>
     @else
         <div>
-            <img src="{{ asset('storage/post_images/default.jpg') }}" alt="" class="w-full">
+            <img src="{{ asset('storage/post_images/default.png') }}" alt="" class="w-full mt-2 mb-2 rounded-lg">
         </div>
     @endif
 

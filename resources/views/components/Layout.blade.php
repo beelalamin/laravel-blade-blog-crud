@@ -12,8 +12,8 @@
 </head>
 
 <body>
-    <nav class="bg-gray-800 text-gray-200 w-full">
-        <div class="max-w-screen-2xl mx-auto flex justify-between py-4 align-baseline">
+    <nav class="bg-gray-800 text-gray-200 w-screen">
+        <div class="w-5/6 mx-auto  flex justify-between py-4 align-baseline">
 
             <div class="uppercase font-bold">
                 <a href="{{ route('posts.index') }}">LARAVEL</a>
@@ -65,9 +65,26 @@
             @endguest
         </div>
     </nav>
-    <main class="max-w-screen-2xl mx-auto mt-8">
+    <main class="w-5/6  mx-auto mt-8 mb-8">
         {{ $slot }}
     </main>
 </body>
+
+<script>
+    // Set form: x-data="formSubmit" @submit.prevent="submit" and button: x-ref="btn"
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('formSubmit', () => ({
+            submit() {
+                this.$refs.btn.disabled = true;
+                this.$refs.btn.classList.remove('bg-gray-800', 'hover:bg-gray-700');
+                this.$refs.btn.classList.add('bg-gray-400');
+                this.$refs.btn.innerHTML =
+                    `Loading ...`;
+
+                this.$el.submit()
+            }
+        }))
+    })
+</script>
 
 </html>

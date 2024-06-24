@@ -5,7 +5,8 @@
         <h1 class=" text-xl font-bold">Add New Post</h1>
         <div class=" mx-auto shadow-md rounded max-w-screen-sm mt-8">
 
-            <form action="{{ route('posts.store') }}" method="post" class="p-5" enctype="multipart/form-data">
+            <form action="{{ route('posts.store') }}" method="post" class="p-5" enctype="multipart/form-data"
+                x-data="formSubmit" @submit.prevent="submit">
                 @csrf
 
                 <div class="mb-2">
@@ -19,8 +20,9 @@
                 {{-- Post Title --}}
                 <div class="mb-4 ">
                     <label for="title" class="text-sm ">Title</label> <br>
-                    <input type="text" name="title"
+                    <input type="text" name="title" value="{{ old('title') }}"
                         class="w-full block outline-none border rounded-md py-1 px-1
+                        
                 @error('title')
                     border-red-600
                 @enderror
@@ -40,7 +42,7 @@
 
                  @error('body')
                 border-red-600
-            @enderror "> </textarea>
+            @enderror ">{{ old('body') }}</textarea>
 
                     @error('body')
                         <p class="text-red-600 text-xs">{{ $message }}</p>
@@ -64,8 +66,8 @@
                 </div>
 
 
-                <button
-                    class="mt-4 bg-gray-800 text-white px-4 py-1 rounded-md transition-all hover:bg-gray-700">Create</button>
+                <button class="w-1/6 mt-4 bg-gray-800 text-white px-4 py-1 rounded-md transition-all hover:bg-gray-700"
+                    x-ref="btn">Create</button>
             </form>
 
 
