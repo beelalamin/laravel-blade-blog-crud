@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
-
 class PostController extends Controller implements HasMiddleware
 {
 
@@ -51,7 +50,7 @@ class PostController extends Controller implements HasMiddleware
         $fields = $request->validate([
             'title' => ['required', 'max:255'],
             'body' => 'required',
-            'image' => ['file', 'nullable', 'mimes:png,jpg,jpeg', 'max:1024'],
+            'image' => ['nullable', 'file', 'max:3000', 'mimes: ,png,jpg']
         ]);
 
         // Upload image
@@ -59,6 +58,8 @@ class PostController extends Controller implements HasMiddleware
         if ($request->hasFile('image')) {
             $path = Storage::disk('public')->put('post_images', $request->file('image'));
         }
+
+
 
         // Create post
         $post = Auth::user()->posts()->create([
@@ -104,7 +105,7 @@ class PostController extends Controller implements HasMiddleware
         $fields = $request->validate([
             'title' => ['required', 'max:255'],
             'body' => 'required',
-            'image' => ['file', 'nullable', 'mimes:png,jpg,jpeg', 'max:1024'],
+            'image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'max:1024'],
         ]);
 
         // Check image if exist

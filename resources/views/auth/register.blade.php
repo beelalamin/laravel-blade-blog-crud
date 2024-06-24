@@ -65,6 +65,11 @@
                 @enderror
             </div>
 
+            <div class="mb-4 text-sm">
+                <input type="checkbox" name="subscribe" id="subscribe">
+                <label for="subscribe">Subscribe to our newsletter</label>
+            </div>
+
             <button
                 class="mt-4 bg-gray-800 text-white px-4 py-1 rounded-md transition-all hover:bg-gray-700">Register</button>
         </form>
